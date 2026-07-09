@@ -193,8 +193,7 @@ with tab1:
     col1, col2 = st.columns(2)
     with col1:
         fig = px.scatter(filtered_df, x='median_income', y='median_house_value',
-                         color='ocean_proximity', opacity=0.4, title='Income vs House Value',
-                         trendline='ols')
+                         color='ocean_proximity', opacity=0.4, title='Income vs House Value')
         st.plotly_chart(fig, use_container_width=True)
     with col2:
         fig = px.scatter(filtered_df, x='latitude', y='longitude',
