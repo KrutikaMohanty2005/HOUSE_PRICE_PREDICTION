@@ -2,6 +2,8 @@
 
 A complete machine learning project for predicting house prices using the California Housing dataset.
 
+![Data Explorer](screenshots/01_data_explorer.png)
+
 ## Features
 
 ### Data Analysis
@@ -11,13 +13,10 @@ A complete machine learning project for predicting house prices using the Califo
 - Missing value handling and data cleaning
 
 ### Machine Learning Models
-- Ridge Regression
-- Lasso Regression
 - Random Forest
 - Gradient Boosting
-- XGBoost
 - Cross-validation with 5-fold CV
-- Hyperparameter comparison
+- Automatic best model selection
 
 ### Feature Engineering
 - Rooms per household
@@ -26,10 +25,8 @@ A complete machine learning project for predicting house prices using the Califo
 - Income bracket categorization
 
 ### Model Evaluation
-- R² Score, RMSE, MAE, MAPE metrics
+- R² Score, RMSE, MAE metrics
 - Cross-validation scores with standard deviation
-- Actual vs Predicted analysis
-- Residual distribution plots
 - Feature importance analysis
 
 ### Interactive Dashboard
@@ -39,6 +36,34 @@ A complete machine learning project for predicting house prices using the Califo
 - **Model Insights** - Compare models and view feature importance
 - Sidebar with dataset info and model metrics
 - Custom CSS styling
+
+## Dashboard Screenshots
+
+### Data Explorer
+Browse and filter the California housing dataset with interactive charts.
+
+![Data Explorer](screenshots/01_data_explorer.png)
+
+![Data Charts](screenshots/02_data_charts.png)
+
+### Predict Price
+Adjust location, property details, and demographics to predict house prices in real-time.
+
+![Predict Price](screenshots/03_predict_price.png)
+
+![Predict Inputs](screenshots/04_predict_inputs.png)
+
+### Batch Prediction
+Upload a CSV file to get predictions for multiple properties at once, then download the results.
+
+![Batch Prediction](screenshots/05_batch_prediction.png)
+
+### Model Insights
+Compare model performance, view feature correlations, and analyze statistics.
+
+![Model Insights](screenshots/06_model_insights.png)
+
+![Model Charts](screenshots/07_model_charts.png)
 
 ## Installation
 
@@ -53,6 +78,8 @@ pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
+Then open **http://localhost:8501** in your browser.
+
 ### Run the Notebook
 ```bash
 jupyter notebook HOUSE_PRICE_PREDICTION.ipynb
@@ -65,17 +92,26 @@ jupyter notebook HOUSE_PRICE_PREDICTION.ipynb
 ├── HOUSE_PRICE_PREDICTION.ipynb   # Analysis & training notebook
 ├── app.py                         # Streamlit dashboard
 ├── requirements.txt               # Python dependencies
-├── README.md                      # Documentation
+├── screenshots/                   # Dashboard screenshots
+│   ├── 01_data_explorer.png
+│   ├── 02_data_charts.png
+│   ├── 03_predict_price.png
+│   ├── 04_predict_inputs.png
+│   ├── 05_batch_prediction.png
+│   ├── 06_model_insights.png
+│   └── 07_model_charts.png
 ├── best_house_price_model.pkl     # Trained model (auto-generated)
-└── model_features.pkl             # Model metadata (auto-generated)
+├── model_features.pkl             # Model metadata (auto-generated)
+└── README.md
 ```
 
 ## How It Works
 
 1. The app loads the housing dataset automatically
-2. If no trained model exists, it trains one on first launch
-3. The best model is selected automatically based on R² score
-4. Use the dashboard to explore data, make predictions, or upload batch CSVs
+2. Missing values are handled (median imputation)
+3. If no trained model exists, it trains Random Forest and Gradient Boosting on first launch
+4. The best model is selected automatically based on R² score
+5. Use the dashboard to explore data, make predictions, or upload batch CSVs
 
 ## Dashboard Tabs
 
@@ -90,7 +126,6 @@ jupyter notebook HOUSE_PRICE_PREDICTION.ipynb
 
 - Python 3.10+
 - Pandas, NumPy
-- Scikit-learn, XGBoost
+- Scikit-learn
 - Streamlit, Plotly
-- Matplotlib, Seaborn
 - Joblib

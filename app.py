@@ -27,6 +27,7 @@ st.markdown("""
 @st.cache_data
 def load_data():
     df = pd.read_csv('housing.csv')
+    df['total_bedrooms'].fillna(df['total_bedrooms'].median(), inplace=True)
     df['rooms_per_household'] = df['total_rooms'] / df['households']
     df['bedrooms_per_room'] = df['total_bedrooms'] / df['total_rooms']
     df['population_per_household'] = df['population'] / df['households']
@@ -36,9 +37,9 @@ def load_data():
 def train_model(df):
     from sklearn.model_selection import train_test_split, cross_val_score
     from sklearn.preprocessing import StandardScaler, OneHotEncoder
+    from sklearn.impute import SimpleImputer
     from sklearn.compose import ColumnTransformer
     from sklearn.pipeline import Pipeline
-    from sklearn.linear_model import Ridge, Lasso
     from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
     from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
@@ -50,16 +51,20 @@ def train_model(df):
                         'rooms_per_household', 'bedrooms_per_room', 'population_per_household']
     categorical_features = ['ocean_proximity']
 
+    numeric_transformer = Pipeline(steps=[
+        ('imputer', SimpleImputer(strategy='median')),
+        ('scaler', StandardScaler())
+    ])
+
     preprocessor = ColumnTransformer(
         transformers=[
-            ('num', StandardScaler(), numeric_features),
-            ('cat', OneHotEncoder(drop='first'), categorical_features)
+            ('num', numeric_transformer, numeric_features),
+            ('cat', OneHotEncoder(drop='first', handle_unknown='ignore'), categorical_features)
         ])
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     models = {
-        'Ridge Regression': Ridge(alpha=1.0),
         'Random Forest': RandomForestRegressor(n_estimators=150, random_state=42, n_jobs=-1),
         'Gradient Boosting': GradientBoostingRegressor(n_estimators=150, random_state=42),
     }
@@ -94,7 +99,7 @@ def train_model(df):
                  'categorical_features': categorical_features, 'results': results,
                  'best_name': best_name, 'metrics': results[best_name]}, 'model_features.pkl')
 
-    return best_model, list(X.columns), results, best_name
+    return best_model, list(X.columns), results, best_name, results[best_name]
 
 
 @st.cache_resource
@@ -105,12 +110,12 @@ def load_model():
             model = joblib.load('best_house_price_model.pkl')
             meta = joblib.load('model_features.pkl')
             if isinstance(meta, dict):
-                return model, meta.get('features', []), meta.get('results', {}), meta.get('best_name', ''), meta.get('metrics', {})
+                return (model, meta.get('features', []), meta.get('results', {}),
+                        meta.get('best_name', ''), meta.get('metrics', {}))
             return model, meta, {}, '', {}
         except Exception:
             pass
-    model, features, results, best_name, metrics = train_model(df)
-    return model, features, results, best_name, metrics
+    return train_model(df)
 
 
 df = load_data()
