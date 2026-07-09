@@ -1,38 +1,44 @@
-# 🏠 House Price Prediction - Upgraded Version
+# House Price Prediction
 
 A complete machine learning project for predicting house prices using the California Housing dataset.
 
 ## Features
 
-### 📊 Data Analysis
-- Exploratory Data Analysis (EDA)
-- Correlation heatmaps
-- Geographic visualizations
+### Data Analysis
+- Exploratory Data Analysis (EDA) with interactive visualizations
+- Correlation heatmaps and feature analysis
+- Geographic price distribution maps
+- Missing value handling and data cleaning
 
-### 🤖 Machine Learning Models
-- Linear Regression
+### Machine Learning Models
 - Ridge Regression
 - Lasso Regression
 - Random Forest
 - Gradient Boosting
 - XGBoost
+- Cross-validation with 5-fold CV
+- Hyperparameter comparison
 
-### 🔧 Feature Engineering
+### Feature Engineering
 - Rooms per household
 - Bedrooms per room ratio
 - Population per household
-- Income categories
+- Income bracket categorization
 
-### 📈 Model Comparison
-- RMSE, MAE, R² metrics
-- Cross-validation scores
+### Model Evaluation
+- R² Score, RMSE, MAE, MAPE metrics
+- Cross-validation scores with standard deviation
+- Actual vs Predicted analysis
+- Residual distribution plots
 - Feature importance analysis
 
-### 🌐 Interactive Dashboard
-- Streamlit web application
-- Real-time price predictions
-- Data exploration tools
-- Model insights visualization
+### Interactive Dashboard
+- **Data Explorer** - Filter and visualize housing data
+- **Predict Price** - Single property price prediction
+- **Batch Prediction** - Upload CSV for bulk predictions with download
+- **Model Insights** - Compare models and view feature importance
+- Sidebar with dataset info and model metrics
+- Custom CSS styling
 
 ## Installation
 
@@ -42,49 +48,49 @@ pip install -r requirements.txt
 
 ## Usage
 
-### 1. Run the Notebook
+### Run the Dashboard
 ```bash
-jupyter notebook HOUSE_PRICE_PREDICTION.ipynb
+python -m streamlit run app.py
 ```
 
-### 2. Launch Dashboard
+### Run the Notebook
 ```bash
-streamlit run app.py
+jupyter notebook HOUSE_PRICE_PREDICTION.ipynb
 ```
 
 ## Project Structure
 
 ```
-├── housing.csv                    # Dataset
-├── HOUSE_PRICE_PREDICTION.ipynb   # Main analysis notebook
+├── housing.csv                    # California Housing dataset
+├── HOUSE_PRICE_PREDICTION.ipynb   # Analysis & training notebook
 ├── app.py                         # Streamlit dashboard
 ├── requirements.txt               # Python dependencies
-├── best_house_price_model.pkl     # Trained model (generated)
-├── model_features.pkl             # Feature list (generated)
-└── README.md                      # This file
+├── README.md                      # Documentation
+├── best_house_price_model.pkl     # Trained model (auto-generated)
+└── model_features.pkl             # Model metadata (auto-generated)
 ```
 
-## Model Performance
+## How It Works
 
-| Model | RMSE | R² Score |
-|-------|------|----------|
-| Linear Regression | - | - |
-| Ridge Regression | - | - |
-| Lasso Regression | - | - |
-| Random Forest | - | - |
-| Gradient Boosting | - | - |
-| XGBoost | - | - |
+1. The app loads the housing dataset automatically
+2. If no trained model exists, it trains one on first launch
+3. The best model is selected automatically based on R² score
+4. Use the dashboard to explore data, make predictions, or upload batch CSVs
 
-*Run the notebook to see actual performance metrics*
+## Dashboard Tabs
 
-## Technologies Used
+| Tab | Description |
+|-----|-------------|
+| Data Explorer | Interactive data filtering, distributions, scatter plots |
+| Predict Price | Adjust sliders and inputs to predict a single house price |
+| Batch Prediction | Upload CSV file, get predictions, download results |
+| Model Insights | Model comparison charts, feature correlations, statistics |
 
-- Python 3.8+
-- Pandas
-- NumPy
-- Scikit-learn
-- XGBoost
-- Matplotlib
-- Seaborn
-- Streamlit
-- Plotly
+## Technologies
+
+- Python 3.10+
+- Pandas, NumPy
+- Scikit-learn, XGBoost
+- Streamlit, Plotly
+- Matplotlib, Seaborn
+- Joblib
